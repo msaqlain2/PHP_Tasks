@@ -1,5 +1,4 @@
-<!-- Modal -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -9,15 +8,15 @@
       <div class="modal-body" id="modal-body">
         <form method="post" id="updateForm">
           <label>Full Name</label>
-          <input type="text" class="form-control" name="ufull_name" id="ufull_name">
+          <input type="text" class="form-control" name="ufull_name" id="ufull_name" required>
           <label class="mt-2">Email Address</label>
-          <input type="text" class="form-control" name="uemail" id="uemail">
+          <input type="email" class="form-control" name="uemail" id="uemail" required>
           <label class="mt-2">Password</label>
-          <input type="text" class="form-control" name="upassword" id="upassword">
+          <input type="text" class="form-control" name="upassword" id="upassword" required>
       </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="updateDataBtn" class="btn btn-warning">Update Data</button>
+          <button type="submit" id="updateDataBtn" class="btn btn-warning">Update Data</button>
         </div>
       </form>
     </div>
