@@ -44,20 +44,12 @@ class crud{
 		$stmt = $this->connect->prepare($query);
 		$stmt->bindParam(':user_id', $user_id);
 		$stmt->bindParam(':full_name', $full_name);
-		$stmt->bindParam(':user_email', $user_email);
-		$stmt->bindParam(':user_password', $user_password);
+		$stmt->bindParam(':user_email', $email);
+		$stmt->bindParam(':user_password', $password);
 		$stmt->execute();
+		// echo $stmt->queryString;
+		// 	echo $stmt->debugDumpParams();
 		return true;
-
-	}
-
-	public function selectSpecificData($user_id) {
-		$query = "SELECT * FROM `users` WHERE id = :user_id";
-		$stmt = $this->connect->prepare($query);
-		$stmt->bindParam(':user_id', $user_id);
-		$stmt->execute();
-		$user_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		return $user_data;
 
 	}
 
@@ -66,6 +58,7 @@ class crud{
 		$stmt = $this->connect->prepare($query);
 		$stmt->bindParam(':user_id', $user_id);
 		$stmt->execute();
+
 		return true;
 	}
 

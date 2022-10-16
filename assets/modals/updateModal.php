@@ -7,6 +7,7 @@
       </div>
       <div class="modal-body" id="modal-body">
         <form method="post" id="updateForm">
+          <input type="hidden" class="form-control" name="uid" id="uid" required>
           <label>Full Name</label>
           <input type="text" class="form-control" name="ufull_name" id="ufull_name" required>
           <label class="mt-2">Email Address</label>
