@@ -11,14 +11,15 @@ class crud{
 		$this->connect = $db_config->connect();
 	}
 	
-	public function createNewAccount($full_name, $email, $password) {
+	public function createNewAccount($full_name, $email, $password, $image) {
 		try{
-			$query = "INSERT INTO `users`(`full_name`, `email`, `password`) 
-			VALUES (:full_name,  :email, :password)";
+			$query = "INSERT INTO `users`(`full_name`, `email`, `password`, `image`) 
+			VALUES (:full_name,  :email, :password, :image)";
 			$stmt = $this->connect->prepare($query);
 			$stmt->bindParam(':full_name', $full_name);
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':password', $password);
+			$stmt->bindParam(':image', $image);
 			// echo $stmt->queryString;
 			// echo $stmt->debugDumpParams();
 			$stmt->execute();
@@ -38,20 +39,30 @@ class crud{
 
 	}
 
-	public function UpdateUserData($user_id, $full_name, $email, $password) {
+	public function UpdateUserData($user_id, $full_name, $email, $password, $image) {
 		$query = "UPDATE `users` SET full_name = :full_name , 
-		email = :user_email, password = :user_password WHERE id = :user_id";
+		email = :user_email, password = :user_password, image = :image WHERE id = :user_id";
 		$stmt = $this->connect->prepare($query);
 		$stmt->bindParam(':user_id', $user_id);
 		$stmt->bindParam(':full_name', $full_name);
 		$stmt->bindParam(':user_email', $email);
 		$stmt->bindParam(':user_password', $password);
+		$stmt->bindParam(':image', $image);
 		$stmt->execute();
 		// echo $stmt->queryString;
 		// 	echo $stmt->debugDumpParams();
 		return true;
 
 	}
+
+	function selectDataById($user_id) {
+		$query = "SELECT * FROM `users` WHERE id = :user_id";
+		$stmt = $this->connect->prepare($query);
+		$stmt->bindParam(':user_id', $user_id);
+		$stmt->execute();
+		$user_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $user_data;
+	} 
 
 	public function deleteData($user_id) {
 		$query = "DELETE FROM `users` WHERE id = :user_id";

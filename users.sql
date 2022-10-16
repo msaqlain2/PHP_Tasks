@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2022 at 12:09 AM
+-- Generation Time: Oct 17, 2022 at 12:51 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -31,25 +31,16 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `full_name`, `email`, `password`) VALUES
-(1, 'asdas', 'dsad', 'dsadas'),
-(2, 'primeflix', 'admin@watchprimeflix.com', 'asdasd'),
-(3, 'sadasd', 'dsadasa', 'dsada'),
-(4, 'asdas', 'sadas', 'asdsa'),
-(5, 'asd', 'dsad', 'sadsad'),
-(6, 'jashd', 'asjdhnas', 'jabdas'),
-(7, 'mesam ', 'mesamabbas128@gmail.com', '2323'),
-(8, 'fateha', 'fateha@gmail.com', 'asfas'),
-(9, 'df', 'asfa', 'dfds'),
-(10, 'asdas', 'dasfas', 'dsafas'),
-(11, 'mehdi', 'meees', 'asfas');
+INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `image`) VALUES
+(9, 'Oleg Hopper', 'daravypyn@mailinator.com', 'Pa$$w0rd!', '../images/3129480x0.jpg');
 
 --
 -- Indexes for dumped tables
@@ -69,7 +60,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
