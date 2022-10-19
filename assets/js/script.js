@@ -43,7 +43,7 @@ $(document).ready(function() {
                     var dataResult = JSON.parse(dataResult);
                     if (dataResult.statusCode == 200) {
                         $("#success").show();
-                        $('#success').html('Data deleted successfully !');
+                        $('#success').html('Data deleted successfully!');
                         $('#success').fadeOut(2000);
                         loadTable();
                     }
