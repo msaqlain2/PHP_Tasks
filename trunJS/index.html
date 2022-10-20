@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="assets/js/turn.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style type="text/css">
+body{
+	background:#ddd;
+	overflow: hidden;
+}
+#magazine{
+	width:1000px;
+	height:752px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+#magazine .turn-page{
+	background-color:#ccc;
+	background-size:100%;
+	/*background-repeat: no-repeat;*/
+	overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+<div id="magazine">
+	<div style="background-image:url(assets/images/cover.jpeg);"></div>
+	<div style="background-image:url(assets/images/Page1.jpg);"></div>
+	<div style="background-image:url(assets/images/Page8.jpg);"></div>
+	<div style="background-image:url(assets/images/Page2.jpg);"></div>
+	<div style="background-image:url(assets/images/Page3.jpg);"></div>
+	<div style="background-image:url(assets/images/Page5.jpg);"></div>
+	<div style="background-image:url(assets/images/Page6.jpg);"></div>
+	<div style="background-image:url(assets/images/Page7.jpg);"></div>
+</div>
+
+
+<script type="text/javascript">
+
+	$(window).ready(function() {
+		$('#magazine').turn({
+			
+							// display: 'double',
+							acceleration: true,
+							// gradients: !$.isTouch,
+							// gradients:true,
+							elevation:50,
+							autoCenter: true,
+							when: {
+								turned: function(e, page) {
+									/*console.log('Current view: ', $(this).turn('view'));*/
+								}
+							}
+						});
+	});
+
+	// $('#magazine').turn('removePage', 6)
+	
+	$(window).bind('keydown', function(e){
+		
+		if (e.keyCode==37)
+			$('#magazine').turn('previous');
+		else if (e.keyCode==39)
+			$('#magazine').turn('next');
+			
+	});
+
+
+
+</script>
+
+</body>
+</html>
