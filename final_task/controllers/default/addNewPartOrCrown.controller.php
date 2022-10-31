@@ -9,6 +9,7 @@ $obj = new task();
 
 if(is_array($obj->checkPartorCrownData($category_name)) && count($obj->checkPartorCrownData($category_name)) > 0 ){
 	echo json_encode(array('Data Already Exist'=>200));
+	exit();
 }
 else if($obj->addNewPartOrCrown($category_name)){
 	echo json_encode(array('StatusCode'=>201));

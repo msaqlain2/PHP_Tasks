@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2022 at 08:15 PM
+-- Generation Time: Oct 31, 2022 at 07:48 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -37,7 +37,9 @@ CREATE TABLE `material_type` (
 --
 
 INSERT INTO `material_type` (`id`, `material_type`) VALUES
-(12, 'cotton');
+(61, 'Cotton'),
+(62, 'Fabric'),
+(63, 'Polyster');
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,32 @@ CREATE TABLE `step1` (
 --
 
 INSERT INTO `step1` (`id`, `part_side`, `volume`, `partorcrown`, `material_type`) VALUES
-(1, 'left', '1.5', 'left', 'cotton');
+(1, 'left', '1.5', 'right', 'Polyster');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `step10`
+--
+
+CREATE TABLE `step10` (
+  `id` int(11) NOT NULL,
+  `front` varchar(255) NOT NULL,
+  `top` varchar(255) NOT NULL,
+  `left_temp` varchar(255) NOT NULL,
+  `right_temp` varchar(255) NOT NULL,
+  `left_side` varchar(255) NOT NULL,
+  `right_side` varchar(255) NOT NULL,
+  `crown` varchar(255) NOT NULL,
+  `back` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `step10`
+--
+
+INSERT INTO `step10` (`id`, `front`, `top`, `left_temp`, `right_temp`, `left_side`, `right_side`, `crown`, `back`) VALUES
+(1, '440', '550', '550', '231', '132', '321', '231', '123');
 
 -- --------------------------------------------------------
 
@@ -146,6 +173,12 @@ ALTER TABLE `step1`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `step10`
+--
+ALTER TABLE `step10`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `volume`
 --
 ALTER TABLE `volume`
@@ -159,7 +192,7 @@ ALTER TABLE `volume`
 -- AUTO_INCREMENT for table `material_type`
 --
 ALTER TABLE `material_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `partorcrown`
@@ -178,6 +211,12 @@ ALTER TABLE `part_side`
 --
 ALTER TABLE `step1`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `step10`
+--
+ALTER TABLE `step10`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `volume`

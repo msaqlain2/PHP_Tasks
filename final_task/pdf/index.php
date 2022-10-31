@@ -3,14 +3,28 @@
 use Mpdf\Mpdf;
 
 require_once __DIR__ . '/vendor/autoload.php';
-
+require_once '../models/task.class.php';
 $mpdf = new Mpdf(['mode' => 'utf-8', 
 				'format' => 'A4',
 				]);
 
+$obj = new task();
+$data = $obj->fetchHairColorData();
+
+foreach($data as $values) {
+	$front = $values['front'];
+	$top = $values['top'];
+	$left_temp = $values['left_temp'];
+	$right_temp = $values['right_temp'];
+	$left_side = $values['left_side'];
+	$right_side = $values['right_side'];
+	$crown = $values['crown'];
+	$back = $values['back'];
+}
+
 
 $mpdf->WriteHTML('
-
+	
 	<table width="100%" border="1" style="border-collapse:collapse;">
 		<tr>
 			<td><strong>Customer Name:</strong></td>
@@ -114,6 +128,30 @@ $mpdf->WriteHTML('
 			<td style="border-top:none" width="95px">Ear to Ear: <br>D</td>
 		</tr>
 	</table>
+	<div style="position: fixed; right: 22mm; bottom: 208mm; ">
+		<p >'. $top .'</p>
+	</div>
+	<div style="position: fixed; right: 50mm; bottom: 178mm; ">
+		<p >'. $left_temp .'</p>
+	</div>
+	<div style="position: fixed; right: 23mm; bottom: 188mm; ">
+		<p>'.$crown.'</p>
+	</div>
+	<div style="position: fixed; right: -5mm; bottom: 178mm; ">
+		<p>'. $right_temp .'</p>
+	</div>
+	<div style="position: fixed; right: 23mm; bottom: 155mm; ">
+		<p>'. $front .'</p>
+	</div>
+	<div style="position: fixed; right: -5mm; bottom: 155mm; ">
+		<p>'. $right_side .'</p>
+	</div>
+	<div style="position: fixed; right: 52mm; bottom: 155mm; ">
+		<p>'. $left_side .'</p>
+	</div>
+	<div style="position: fixed; right: 23mm; bottom: 125mm; ">
+		<p >'. $back .'</p>
+	</div>
 
   <div style="position: fixed; right: -12mm; bottom: 114mm; ">
   	<img src="ss-removebg-preview.png" >
@@ -213,47 +251,47 @@ $mpdf->WriteHTML('
   <table border="1" width="100%" style="border-collapse:collapse;text-align:left;margin-top:12px;text-align:center">
   	<tr>
   		<td width="10">Position</td>
-  		<td width="50">[1]</td>
-  		<td width="50">[2]</td>
-  		<td width="50">[3]</td>
-  		<td width="50">[4]</td>
-  		<td width="50">[5]</td>
-  		<td width="50">[6]</td>
-  		<td width="50">[7]</td>
-  		<td width="50">[8]</td>
+  		<td width="50"> Front [1]</td>
+  		<td width="50">Top [3]</td>
+  		<td width="50">Left Temp [2]</td>
+  		<td width="50">Right Temp [2]</td>
+  		<td width="50">Left Side [4]</td>
+  		<td width="50">Right Side [4]</td>
+  		<td width="50">Crown [5]</td>
+  		<td width="50">Back [6]</td>
   	</tr>
   	<tr>
-  		<td width="10"></td>
-  		<td width="50">[1]</td>
-  		<td width="50">[2]</td>
-  		<td width="50">[3]</td>
-  		<td width="50">[4]</td>
-  		<td width="50">[5]</td>
-  		<td width="50">[6]</td>
-  		<td width="50">[7]</td>
-  		<td width="50">[8]</td>
+  		<td width="10">By color swatch</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
   	</tr>
   	<tr>
-  		<td width="10"></td>
-  		<td width="50">[1]</td>
-  		<td width="50">[2]</td>
-  		<td width="50">[3]</td>
-  		<td width="50">[4]</td>
-  		<td width="50">[5]</td>
-  		<td width="50">[6]</td>
-  		<td width="50">[7]</td>
-  		<td width="50">[8]</td>
+  		<td width="10">Light Hair</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
+  		<td width="50">%</td>
   	</tr>
   	<tr>
-  		<td width="10"></td>
-  		<td width="50">[1]</td>
-  		<td width="50">[2]</td>
-  		<td width="50">[3]</td>
-  		<td width="50">[4]</td>
-  		<td width="50">[5]</td>
-  		<td width="50">[6]</td>
-  		<td width="50">[7]</td>
-  		<td width="50">[8]</td>
+  		<td width="10">Base Color</td>
+  		<td width="50">'. $front .'</td>
+  		<td width="50">'. $top .'</td>
+  		<td width="50">'. $left_temp .'</td>
+  		<td width="50">'. $right_temp .'</td>
+  		<td width="50">'. $left_side .'</td>
+  		<td width="50">'. $right_side .'</td>
+  		<td width="50">'. $crown .'</td>
+  		<td width="50">'. $back .'</td>
   	</tr>
   	<tr>
   		<td>dfd</td>
@@ -267,7 +305,7 @@ $mpdf->WriteHTML('
   </table>
   <table border="1" width="100%" style="border-collapse:collapse;text-align:left;text-align:center">
 	<tr >
-		<td height="100px">asds</td>
+		<td height="100px">freestyle</td>
 	</tr>
   </table>
 

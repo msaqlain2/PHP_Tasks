@@ -121,13 +121,13 @@ $(document).ready(function() {
         tags: true,
     }).on('select2:close', function() {
         var element = $(this);
-        var material_type = $.trim(element.val());
-        if (material_type != '') {
+        var partOrCrown = $.trim(element.val());
+        if (partOrCrown != '') {
             $.ajax({
                 url: 'controllers/default/addNewMaterialType.controller.php',
                 method: 'POST',
                 data: {
-                    category_name: material_type
+                    category_name: partOrCrown
                 },
                 success: function(data) {
                     if ($('#material_type').find("option[value='" + data.id + "']").length) {
@@ -154,68 +154,124 @@ $(document).ready(function() {
     });
 
     
-
-     
     $.ajax({
         url: 'controllers/step1/displayPartSideSelectedData.controller.php',
         type: 'GET',
-        dataType: 'html',
+        dataType: 'json',
         success: function(data){
-            $.each(data,function(key, value)
-                {
-                    $("#part_side").append('<option value=' + value + '>' + value + '</option>');
-                });
+            
+        }
+    });
+    
+    
+
+    $.ajax({
+        url: 'controllers/step10/displayFrontData.controller.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#front').val(value);
+            });
         }
     });
 
     $.ajax({
-        url: 'controllers/step1/displayVolumeSelectedData.controller.php',
+        url: 'controllers/step10/displayTopData.controller.php',
         type: 'GET',
-        dataType: 'html',
+        dataType: 'json',
         success: function(data){
-            $.each(data,function(key, value)
-                {
-                    $("#volume").append('<option value=' + value + '>' + value + '</option>');
-                });
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#top').val(value);
+            });
         }
     });
 
     $.ajax({
-        url: 'controllers/step1/displayPartOrCrownSelectedData.controller.php',
+        url: 'controllers/step10/displayLeftTempData.controller.php',
         type: 'GET',
-        dataType: 'html',
+        dataType: 'json',
         success: function(data){
-            $.each(data,function(key, value)
-                {
-                    $("#partorcrown").append('<option value=' + value + '>' + value + '</option>');
-                });
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#left_temp').val(value);
+            });
         }
     });
 
     $.ajax({
-        url: 'controllers/step1/displayMaterialTypeSelectedData.controller.php',
+        url: 'controllers/step10/displayRightTempData.controller.php',
         type: 'GET',
-        dataType: 'html',
+        dataType: 'json',
         success: function(data){
-            $.each(data,function(key, value)
-                {
-                    $("#material_type").append('<option value=' + value + '>' + value + '</option>');
-                });
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#right_temp').val(value);
+            });
+        }
+    });
+
+    $.ajax({
+        url: 'controllers/step10/displayLeftSideData.controller.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#left_side').val(value);
+            });
+        }
+    });
+
+    $.ajax({
+        url: 'controllers/step10/displayRightSideData.controller.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#right_side').val(value);
+            });
+        }
+    });
+
+    $.ajax({
+        url: 'controllers/step10/displayCrownData.controller.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#crown').val(value);
+            });
+        }
+    });
+
+    $.ajax({
+        url: 'controllers/step10/displayBackData.controller.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log();
+            $.each(data[0], function(key, value){
+                $('#back').val(value);
+            });
         }
     });
 
     
 
+
     $('#form').on('submit', function(event) {
         event.preventDefault();
         $.ajax({
-            url: 'controllers/step1/hairStyleData.controller.php',
+            url: 'controllers/step10/submitForm.controller.php',
             type: 'POST',
             data: $('#form').serialize(),
             success: function(data) {
-                if(data.StatusCode == 200){
-                    alert("Data Saved SuccessFully");
-                }
+                alert("Data Saved SuccessFully");
             }
         });
     });

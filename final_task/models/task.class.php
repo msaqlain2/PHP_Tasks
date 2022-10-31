@@ -122,6 +122,22 @@ class task{
 
 	}
 
+	public function selectHairColor($front, $top, $left_temp, $right_temp, $left_side, $right_side, $crown, $back)
+	{
+		$query = "UPDATE `step10` SET front = :front, top = :top, left_temp = :left_temp, right_temp = :right_temp, left_side = :left_side, right_side = :right_side, crown = :crown, back = :back";
+		$stmt = $this->connect->prepare($query);
+		$stmt->bindParam(':front', $front);
+		$stmt->bindParam(':top', $top);
+		$stmt->bindParam(':left_temp', $left_temp);
+		$stmt->bindParam(':right_temp', $right_temp);
+		$stmt->bindParam(':left_side', $left_side);
+		$stmt->bindParam(':right_side', $right_side);
+		$stmt->bindParam(':crown', $crown);
+		$stmt->bindParam(':back', $back);
+		$stmt->execute();
+		return true; 
+	}
+
 	public function displayPartSideSelectedData(){
 		$query = "SELECT `part_side` FROM `step1`";
 		$stmt = $this->connect->prepare($query);
@@ -152,6 +168,79 @@ class task{
 		$stmt->execute();
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $data;
+	}
+
+	public function displayFrontData(){
+		$query = "SELECT `front` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayTopData(){
+		$query = "SELECT `top` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayLeftTempData(){
+		$query = "SELECT `left_temp` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayRightTempData(){
+		$query = "SELECT `right_temp` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayLeftSideData(){
+		$query = "SELECT `left_side` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayRightSideData(){
+		$query = "SELECT `right_side` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayCrownData(){
+		$query = "SELECT `crown` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function displayBackData(){
+		$query = "SELECT `back` FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	public function fetchHairColorData(){
+		$query = "SELECT * FROM `step10`";
+		$stmt = $this->connect->prepare($query);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+
 	}
 
 

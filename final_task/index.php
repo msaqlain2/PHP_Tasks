@@ -1,3 +1,8 @@
+<?php
+require_once('models/task.class.php');
+$obj = new task();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -67,7 +72,7 @@
             <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <label>Front</label>
-                <select class="form-select select2bs4" id="front" >
+                <select class="form-select select2bs4" >
                   <option selected disabled>Select Front</option>
                 </select>
               </div>
@@ -75,7 +80,7 @@
             <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <label>Top</label>
-                <select class="form-select select2bs4" aria-label="Default select example" id="top">
+                <select class="form-select select2bs4" aria-label="Default select example" >
                   <option selected disabled>Select Top</option>
                 </select>
               </div>
@@ -99,7 +104,7 @@
             <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <label>Crown</label>
-                <select class="form-select select2bs4" aria-label="Default select example" id="crown">
+                <select class="form-select select2bs4" aria-label="Default select example" >
                   <option selected disabled>Select Crown</option>
                 </select>
               </div>
@@ -107,7 +112,7 @@
             <div class="col-sm-2 col-md-2">
               <div class="form-group">
                 <label>Back</label>
-                <select class="form-select select2bs4" aria-label="Default select example" id="back">
+                <select class="form-select select2bs4" aria-label="Default select example" >
                   <option selected disabled>Select Back</option>
                 </select>
               </div>
@@ -766,40 +771,39 @@
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Front</label>
-            <input type="text" name="" class="form-control">
+            <input type="text" name="front" id="front" class="form-control">
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Top</label>
-            <input type="text" name="" class="form-control">
+            <input type="text" name="top" id="top" class="form-control">
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Left Temp</label>
-            <input type="text" name="" class="form-control">
+            <input type="text" name="left_temp" id="left_temp" class="form-control">
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Right Temp</label>
-            <input type="text" name="" class="form-control">
+            <input type="text" name="right_temp" id="right_temp" class="form-control">
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Left Side</label>
-            <input type="text" name="" class="form-control">
+            <input type="text" name="left_side" id="left_side" class="form-control">
           </div>
         </div>
         <div class="row mt-3">
           <div class="col-sm-2 col-md-2">
-            
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Right Side</label>
-            <input type="text" name="" class="form-control">  
+            <input type="text" name="right_side" id="right_side" class="form-control">  
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Crown</label>
-            <input type="text" name="" class="form-control">  
+            <input type="text" name="crown" id="crown" class="form-control">  
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Back</label>
-            <input type="text" name="" class="form-control">  
+            <input type="text" name="back" id="back" class="form-control">  
           </div>
           <div class="col-sm-2 col-md-2">
             <label>Total Gray</label>
