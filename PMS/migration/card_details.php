@@ -1,10 +1,14 @@
 <?php
-require '../models/subscription.class.php';
-class card_details{
-    public $connect;
+class table{
+    public $db;
     public function __construct()
     {
         try{
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+        $this->db = new PDO("mysql:host=$servername;dbname=pms", $username, $password);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "CREATE TABLE `card_details` (
           `id` int(11) NOT NULL,
@@ -16,7 +20,6 @@ class card_details{
           `subscription_date` date NOT NULL,
           `subscription_expiry_date` date NOT NULL
         )";
-
             $stmt = $this->db->query($sql);
             if($stmt) {
                 echo "Table Created Successfully";
@@ -29,6 +32,6 @@ class card_details{
     }
 }
 
-$daily_log = new card_details();
+$table = new table();
 
 ?>
