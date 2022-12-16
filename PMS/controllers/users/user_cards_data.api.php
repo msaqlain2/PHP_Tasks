@@ -8,4 +8,5 @@ $id = $_SESSION['userId'];
 $obj = new subscription();
 echo json_encode($obj->getUserCards($id));
 
+
 ?>

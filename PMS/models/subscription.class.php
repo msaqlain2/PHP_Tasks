@@ -30,21 +30,39 @@ class subscription{
 
     }
 
-    public function subscribe($user_id, $invoice_no, $card_number, $subscription_type, $subscription_starting_date, $subscription_expiry_date, $created_at) {
-        $query = "INSERT INTO `invoices`(`user_id`, `invoice_no`, `card_number`, `subscription_type`, `subscription_starting_date`, `subscription_expiry_date`, `created_at`) 
-        VALUES (:user_id, :invoice_no, :card_number, :subscription_type, :subscription_starting_date,
-            :subscription_expiry_date, :created_at)";
+    public function subscribe($user_id, $card_number, $card_type, $card_holder_name, 
+        $card_expiry_date, $token, $subs_plan, $payment_date, $amount_paid, $paid_currency, 
+        $payment_status, $subs_expiry_date, $card_subs_status) {
+        $query = "INSERT INTO `subscription`(`user_id`,`card_number`, `card_type`, `card_holder_name`, `card_expiry_date`, `token`, `subs_plan`, `payment_date`,
+            `amount_paid`, `paid_currency`, `payment_status`,
+            `subs_expiry_date`, `card_subs_status`) 
+        VALUES (:user_id, :card_number, :card_type, :card_holder_name, :card_expiry_date, :token, 
+            :subs_plan, :payment_date,
+            :amount_paid, :paid_currency, :payment_status, 
+            :subs_expiry_date, :card_subs_status)";
         $stmt = $this->connect->prepare($query);
         $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':invoice_no', $invoice_no);
         $stmt->bindParam(':card_number', $card_number);
-        $stmt->bindParam(':subscription_type', $subscription_type);
-        $stmt->bindParam(':subscription_starting_date', $subscription_starting_date);
-        $stmt->bindParam(':subscription_expiry_date', $subscription_expiry_date);
-        $stmt->bindParam(':created_at', $created_at);
-        $stmt->execute();
-        return true;
+        $stmt->bindParam(':card_type', $card_type);
+        $stmt->bindParam(':card_holder_name', $card_holder_name);
+        $stmt->bindParam(':card_expiry_date', $card_expiry_date);
+        $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':subs_plan', $subs_plan);
+        $stmt->bindParam(':payment_date', $payment_date);
+        $stmt->bindParam(':amount_paid', $amount_paid);
+        $stmt->bindParam(':paid_currency', $paid_currency);
+        $stmt->bindParam(':payment_status', $payment_status);
+        $stmt->bindParam(':subs_expiry_date', $subs_expiry_date);
+        $stmt->bindParam(':card_subs_status', $card_subs_status);
+        if($stmt->execute()){
+            echo json_encode(array('status' => 'success'));
+        }
+        else{
+            echo json_encode(array('status' => 'failed'));
+        }
+        // return $lastInsertId = $this->connect->lastInsertId();
     }
+
 
     public function pure_select($table)
     {
@@ -54,12 +72,19 @@ class subscription{
 
 
     public function getUserCards($id) {
-        $query = "SELECT * FROM `users_cards` WHERE user_id = :id";
+        $query = "SELECT * FROM `subscription` WHERE user_id = :id";
         $stmt = $this->connect->prepare($query);
         $stmt->bindParam(':id', $id);
         if($stmt->execute()) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+    }
+
+    function getUsers($user_id) {
+        $query = $this->connect->prepare("SELECT * FROM users WHERE id = :user_id");
+        $query->bindParam(':user_id', $user_id);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function editCards($user_id)
@@ -97,9 +122,43 @@ class subscription{
         return $this->connect->lastInsertId();
 
     }
-    function selectDataByUserId($user_id, $invoice_no, $card_number, $subscription_type,
-        $subscription_starting_date, $subscription_expiry_date, $created_at) {
-        $query = "SELECT * FROM invoices WHERE user_id = :user_id ORDER BY id DESC LIMIT 1";
+
+    function checkUserDataByCard($card_number) {
+        $query = "SELECT * FROM `subscription` WHERE card_number = :card_number";
+        $stmt = $this->connect->prepare($query);
+        $stmt->bindParam(':card_number', $card_number);
+        if($stmt->execute()){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+    function subsDataByUserId($user_id) {
+        $query = "SELECT * FROM `subscription` WHERE user_id = :user_id ORDER BY id DESC LIMIT 1";
+        $stmt = $this->connect->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function reSubscribeUsingPreviousCard($user_id, $card_number, $payment_date, $subs_expiry_date, $token, $subs_plan, $card_subs_status) {
+        $query = "UPDATE `subscription` SET token = :token, subs_plan = :subs_plan, 
+        payment_date = :payment_date, payment_status = :payment_status, 
+        subs_expiry_date = :subs_expiry_date, card_subs_status = :card_subs_status WHERE card_number = :card_number AND user_id = :user_id ORDER BY id DESC LIMIT 1";
+        $stmt = $this->connect->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':card_number', $card_number);
+        $stmt->bindParam(':payment_date', $payment_date);
+        $stmt->bindParam(':subs_expiry_date', $subs_expiry_date);
+        $stmt->bindParam(':subs_plan', $subs_plan);
+        $stmt->bindParam(':card_subs_status', $card_subs_status);
+        $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':payment_status', $payment_status);
+        $stmt->execute();
+        return true;
+    }
+
+    function selectDataByUserId($user_id) {
+        $query = "SELECT * FROM `subscription` WHERE user_id = :user_id ORDER BY id DESC LIMIT 1";
         $stmt = $this->connect->prepare($query);
         $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
@@ -107,17 +166,11 @@ class subscription{
         if($stmt->rowCount() == 0){
             echo json_encode(array('status' => 'Data Not Exist!'));
         }
-        else if($query_res['subscription_starting_date'] >  $query_res['subscription_expiry_date']) {
+        else if($query_res['payment_date'] >  $query_res['subs_expiry_date']) {
             echo json_encode(array('status' => 'Subscription Expired'));
-            
         }
         else if($stmt->rowCount() > 0) {
             echo json_encode(array('status' => 'Data Already Exist!'));
         }
-
-        
-        
-        
-        
     }
 }

@@ -13,6 +13,7 @@ else{
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	<link rel="stylesheet" type="text/css" href="assets/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
 	<link rel="stylesheet" href="assets/bootstrap/dist/css/custom_styles.css">
@@ -27,17 +28,11 @@ else{
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="add_card.php">Card</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="card_details.php">Card Payment</a>
+          <a class="nav-link" aria-current="page" href="card_details.php">Subscribe</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="invoices.php">Invoices</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="edit_cards.php">Edit Cards</a>
-        </li> -->
       </ul>
     </div>
   </div>

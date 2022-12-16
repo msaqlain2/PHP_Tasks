@@ -1,8 +1,24 @@
 $(document).ready(function() {
-	$('#subs_id').val('0');
 
+	cardValidate();
+	$('.re-subscribe').hide();
+	$('#submitPreviousForm').hide();
+
+	$('#previous_cards').change(function(e) {
+		var cardDropDown = $(this).val();
+		if(cardDropDown !== ''){
+			$('#payment_form').hide();
+			$('#submitPreviousForm').show();
+			
+		}
+		else{
+			$('#payment_form').show();
+			$('#submitPreviousForm').hide();
+		}
+	});
+
+	$('#subs_id').val('0');
 	checkUserDataById();
-	
 	$('#reg_form').submit(function(e) {
 		e.preventDefault();
 		 var formdata = new FormData(this);
@@ -36,7 +52,7 @@ $(document).ready(function() {
 		    dataType: 'json',
 			success: function(data) {
 				if(data.status === 'success') {
-					window.location.href = 'card_details.php';			
+					window.location.href = 'select_plans.php';			
 				}
 				else if(data.status === 'failed'){
 					$("#error").show();
@@ -62,41 +78,6 @@ $(document).ready(function() {
 		});
 	});
 
-	$('#addCard').click(function(e) {
-		e.preventDefault();
-		cardValidate();
-
-		var cci=[];
-    $('#addCreditRowT .input-lg').each(function(key, element){
-        cci.push($(element).val());
-    });
-		if(cci.length > 0) {
-			var form_cc = new FormData();
-			form_cc.append('cci',cci);
-			$.ajax({
-				url:  'controllers/cards/add_new_card.api.php',
-				type: 'POST',
-				data: form_cc,
-        processData: false,
-      	contentType: false,
-        success:function(response) {
-    		console.log(response);	
-        }
-			});
-		}
-	});
-
-
-	$(document).on('click', '#updateCardData', function() {
-		$('#cc-id').val($(this).data('id'));
-		$('#cc-brand').val($(this).data('type'));
-		$('#cc-number').val($(this).data('number'));
-		$('#cc-owner').val($(this).data('owner'));
-		$('#cc-exp').val($(this).data('expiry'));
-		$('#cc-cvc').val($(this).data('cvv'));
-
-	});	
-
 	$.ajax({
     url: 'controllers/users/user_cards_data.api.php',
     type:'POST',
@@ -104,54 +85,35 @@ $(document).ready(function() {
     success: function(data) {
         for (var i=0; i<data.length; i++) {
             
-             $('#user_cards').append($('<option>', { 
+             $('#previous_cards').append($('<option>', { 
              value: data[i].card_number,
-              text : data[i].card_number 
+              text : data[i].card_number + " -- " + data[i].card_type, 
     }));
         }
     },
     
 });
 
-});
 
-
-function checkUserDataById() {
-	$.ajax({
-		url: 'controllers/users/check_user_data.api.php',
-		type: 'POST',
-		processData: false,
-	    contentType: false,
-	    dataType: 'json',
-	    success: function(data) {
-	    	if(data.status == 'Subscription Expired') {
-	    		$('#subs_id').val('1');
-	    		$('#subs_expire').html("Your subscription has expired!");
-	    	}
-	    	if(data.status == 'Data Already Exist!') {
-	    		$('#order_btn').remove();
-	    		$('#subs_live').html("Your subscription is Live");
-	    	}
-	    }
-	});
-
-	if($('#subs_id').val() == 0) {
 		$('#payment_form').submit(function(e) {
 			e.preventDefault();
-			 var formdata = new FormData(this);
+			let formdata = new FormData(this);
+			
 			$.ajax({
-				url: 'controllers/complete_order.api.php',
+				url: 'controllers/process.php',
 				type: 'POST',
 				data: formdata,
 				processData: false,
-		    contentType: false,
-		    dataType: 'json',
+			    contentType: false,
+			    dataType: 'json',
 				success: function(data) {
 					if(data.status == 'success') {
 						$("#success").show();
-	                    $('#success').html('Data Inserted Successfully!');
+	                    $('#success').html('Subscribed Successfully!');
 	                    $('#payment_form')[0].reset();
 	                    $('#success').fadeOut(2000);
+	                    $('#subs_expire').remove();
+	                    $('.re-subscribe').hide();
 	                    checkUserDataById();
 					}
 					else if(data.status == 'failed'){
@@ -162,15 +124,152 @@ function checkUserDataById() {
 				}
 			});
 		});
+
+});
+
+
+
+function formValidate() {
+		let validCard = 0;
+		let valid = false;
+		let cardCVC = $('.cc-cvc').val();
+		let cardNumber = $('.cc-number').val();
+		let customerName = $('.cc-owner').val();
+		let expiryDate = $('.cc-expiry').val();
+		let cardExpMonth = expiryDate.slice(0,2);
+		let cardExpYear = expiryDate.slice(5,0);
+		let validateMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
+		let validateYear = /^2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
+		let validateName = /^[a-z ,.'-]+$/i;
+		let cvv_expression = /^[0-9]{3,4}$/;
+
+		 
+		 	$('.cc-number').validateCreditCard(function(result){
+		  		if(result.valid == true) {
+		   			$('.cc-number').removeClass('require');
+		   			$('.cc-number').removeClass('border-danger');
+		   			$('.errorCardNumber').text('');
+			   		validCard = true;
+		  		} 
+		  		else {
+		   			$('.cc-number').addClass('require');
+		   			$('.cc-number').addClass('border-danger');
+		   			$('.errorCardNumber').text('Invalid Card Number');
+		   			validCard = false;
+		  		}		
+		 	});	
+
+
+
+		 return validCard;
 	}
 
+Stripe.setPublishableKey('pk_test_51MDBgwBkuRJujNxoTFqi9RebiiEBsl4tyBNdq6MS8XUKsOra6uNHg3srygo51f8RgZSt0QKoXLutOtM6Fqgsh6bs001wkgqgiF');
 
-	if($('#subs_id').val() == 1) {
-		$('#payment_form').submit(function(e) {
+function stripePay(event) {
+    event.preventDefault();
+
+    let expiryDate = $('.cc-expiry').val();
+    let expiryMonth = expiryDate.slice(0,2);
+    let expiryYear = expiryDate.slice(5,);
+    let cardOwner = $('.cc-owner').val();
+    if(formValidate() == true) {
+     $('#submitPaymentForm').attr('disabled', 'disabled');
+     $('#submitPaymentForm').text('Payment Processing....');
+     Stripe.createToken({
+      number:$('.cc-number').val(),
+      cvc:$('.cc-cvc').val(),
+      exp_month : expiryMonth, 
+      exp_year : expiryYear,
+      name : cardOwner
+     }, stripeResponseHandler);
+     return false;
+    }
+}
+
+function stripeResponseHandler(status, response) {
+ if(response.error) {
+  $('#submitPaymentForm').attr('disabled', false);
+  $('#message').html(response.error.message).show();
+  
+ } else {
+  var stripeToken = response['id'];
+  $('#payment_form').append("<input type='hidden' name='stripeToken' value='" + stripeToken + "' />");
+  $('#payment_form').submit();
+ }
+}
+
+
+
+function stripeRePay(event) {
+    event.preventDefault();
+    let prevCard = $('#previous_cards').val();
+    if(prevCard !== '') {
+     $('#submitPreviousForm').attr('disabled', 'disabled');
+     $('#submitPreviousForm').text('Payment Processing....');
+     $.ajax({
+     	type: "POST",
+     	url : 'controllers/check_user_data_by_card.php',
+     	data : {"cardNumber" : prevCard},
+     	success: function(response){
+     		let sampleData = response;
+		 	let cardStr = JSON.parse(sampleData);
+		 	let expiry = cardStr[0].card_expiry_date;
+     		Stripe.createToken({
+		      number:cardStr[0].card_number,
+		      cvc:cardStr[0].cvc,
+		      exp_month : expiry.slice(0,2), 
+		      exp_year : expiry.slice(5),
+		      name : cardStr[0].card_holder_name
+		    }, stripeReResponseHandler);	
+     	}
+    });
+    	return false;
+    }
+}
+
+function stripeReResponseHandler(status, response) {
+ if(response.error) {
+  $('#submitPreviousForm').attr('disabled', false);
+  $('#message').html(response.error.message).show();
+  
+ } else {
+  var stripeToken = response['id'];
+  $('#previousCardsFrom').append("<input type='hidden' name='stripeToken' value='" + stripeToken + "' />");
+  $('#previousCardsFrom').submit();
+ }
+}
+
+function checkUserDataById() {
+
+	$.ajax({
+		url: 'controllers/users/check_user_data.api.php',
+		type: 'POST',
+		processData: false,
+	    contentType: false,
+	    dataType: 'json',
+	    success: function(data) {
+	    	if(data.status == 'Subscription Expired') {
+	    		$('#subs_id').val('1');
+	    		$('#subs_expire').html("Your subscription has expired!");
+	    		$('.re-subscribe').show();
+	    	}
+	    	if(data.status == 'Data Already Exist!') {
+	    		$('#submitPaymentForm').remove();
+	    		$('#payment_form').remove();
+	    		$('#subs_live').html("Your subscription is Live");
+
+	    	}
+	    }
+	});
+
+		
+
+		$('#previousCardsFrom').submit(function(e) {
 			e.preventDefault();
 			var formdata = new FormData(this);
 			$.ajax({
-				url: 'controllers/renewal_subscription.api.php',
+				url: 'controllers/renewal_subscription_using_previous_card.api.php',
 				type: 'POST',
 			    data: formdata,
 				processData: false,
@@ -187,78 +286,22 @@ function checkUserDataById() {
 			});
 		});
 	}
-}
-
-function addCreditRow() {
-
-	$("#addCreditRowT").append(
-		`
-		<tr class="cardInfo">
-	        <input id="cc-brand" type="hidden" class="input-lg form-control cc-brand" autocomplete="cc-brand" >
-		<td>
-			<div class="form-group">
-		        <input id="cc-number" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
-	      	</div>
-		</td>
-		<td>
-			<div class="form-group">
-			    <input id="cc-owner" type="tel" class="input-lg form-control" autocomplete="off" placeholder="John Smith" required>
-	      </div>
-		</td>
-		
-		<td>
-			<div class="form-group">
-		        <input id="cc-exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
-		    </div>
-		</td>
-		
-		<td>
-			<div class="form-group">
-			    <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
-	      </div>
-		</td>
-
-		<td>
-			<button class="btn btn-danger" onclick="$(this).parent().parent().remove()"><i class="la la-times"></i>
-			</button>
-		</td>
-		</tr>`
-	);
-    cardValidate();
-}
 
 function cardValidate() {
 	jQuery(function($) {
       $('.cc-number').payment('formatCardNumber');
-      $('.cc-exp').payment('formatCardExpiry');
+      $('.cc-expiry').payment('formatCardExpiry');
       $('.cc-cvc').payment('formatCardCVC');
 
-      $.fn.toggleInputError = function(erred) {
-        this.parent('.form-group').toggleClass('has-error', erred);
-        return this;
-      };
-
-	    var cardType = $.payment.cardType($('.cc-number').val());
-	    $('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
-	    $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
-	    $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
-	    $('.cc-brand').text(cardType);
-
-
-	    $('.validation').removeClass('text-danger text-success');
-	    $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
-	    
 	    $('.cc-number').on('input',function(e){
-		    var $classOfBtn = $('#cc-number').attr('class').split(' ')[3];
+		    var $classOfBtn = $('.cc-number').attr('class').split(' ')[3];
 		    $('.cc-brand').val($classOfBtn);
 		});
-    });
+	});	
 }
-
 	
 
-function editCardInfo() {
-	cardValidate();
-	
-}
+
+
+
 

@@ -42,5 +42,6 @@
 <script type="text/javascript" src="assets/jquery/dist/jquery.payment.js"></script>
 <script type="text/javascript" src="assets/jquery/dist/jquery.creditCardValidator.js"></script>
 <script type="text/javascript" src="assets/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-creditcardvalidator/1.0.0/jquery.creditCardValidator.js"></script>
 <script type="text/javascript" src="assets/js/script.js"></script>
 </html>

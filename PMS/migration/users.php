@@ -10,17 +10,13 @@ class table{
         $this->db = new PDO("mysql:host=$servername;dbname=pms", $username, $password);
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "CREATE TABLE `users_cards` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `card_number` varchar(255) NOT NULL,
-  `card_type` varchar(255) NOT NULL,
-  `card_holder_name` varchar(255) NOT NULL,
-  `card_expiry_date` varchar(255) NOT NULL,
-  `cvv` varchar(255) NOT NULL,
-  `card_status` int(11) NOT NULL,
-  `created_at` datetime NOT NULL
-)";
+        $sql = "CREATE TABLE `users` (
+          `id` int(11) NOT NULL,
+          `username` varchar(255) NOT NULL,
+          `email` varchar(255) NOT NULL,
+          `password` varchar(255) NOT NULL,
+          `created_at` datetime NOT NULL
+        )";
             $stmt = $this->db->query($sql);
             if($stmt) {
                 echo "Table Created Successfully";
