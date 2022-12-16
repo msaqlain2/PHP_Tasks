@@ -39,7 +39,14 @@
 					</form>
 					
 					<form method="post" id="payment_form" class="payment_form">
-						<input type="hidden" class="form-control" name="plan" id="plan" value="<?php  echo $_GET['plan'] ?>" required>
+						<input type="hidden" class="form-control" name="plan" id="plan" value="<?php 
+						if(isset($_GET['plan'])){
+							echo $_GET['plan'];
+						}
+						else{
+							echo "basic";
+						}
+							 ?>" required>
 						<input type="hidden" name="cc-brand" class="form-control cc-brand" id="cc-brand" required>
 						<div class="row">
 							<div class="col-sm-12 col-md-12">

@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
 	cardValidate();
+	checkUserDataById();
+
 	$('.re-subscribe').hide();
 	$('#submitPreviousForm').hide();
 
@@ -17,8 +19,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#subs_id').val('0');
-	checkUserDataById();
+	
 	$('#reg_form').submit(function(e) {
 		e.preventDefault();
 		 var formdata = new FormData(this);
@@ -166,26 +167,28 @@ function formValidate() {
 
 Stripe.setPublishableKey('pk_test_51MDBgwBkuRJujNxoTFqi9RebiiEBsl4tyBNdq6MS8XUKsOra6uNHg3srygo51f8RgZSt0QKoXLutOtM6Fqgsh6bs001wkgqgiF');
 
-function stripePay(event) {
-    event.preventDefault();
+	function stripePay(event) {
+	    event.preventDefault();
 
-    let expiryDate = $('.cc-expiry').val();
-    let expiryMonth = expiryDate.slice(0,2);
-    let expiryYear = expiryDate.slice(5,);
-    let cardOwner = $('.cc-owner').val();
-    if(formValidate() == true) {
-     $('#submitPaymentForm').attr('disabled', 'disabled');
-     $('#submitPaymentForm').text('Payment Processing....');
-     Stripe.createToken({
-      number:$('.cc-number').val(),
-      cvc:$('.cc-cvc').val(),
-      exp_month : expiryMonth, 
-      exp_year : expiryYear,
-      name : cardOwner
-     }, stripeResponseHandler);
-     return false;
-    }
-}
+	    let expiryDate = $('.cc-expiry').val();
+	    let expiryMonth = expiryDate.slice(0,2);
+	    let expiryYear = expiryDate.slice(5,);
+	    let cardOwner = $('.cc-owner').val();
+	    if(formValidate() == true) {
+	     $('#submitPaymentForm').attr('disabled', 'disabled');
+	     $('#submitPaymentForm').text('Payment Processing....');
+	     Stripe.createToken({
+	      number:$('.cc-number').val(),
+	      cvc:$('.cc-cvc').val(),
+	      exp_month : expiryMonth, 
+	      exp_year : expiryYear,
+	      name : cardOwner
+	     }, stripeResponseHandler);
+	     return false;
+	    }
+	}
+
+
 
 function stripeResponseHandler(status, response) {
  if(response.error) {
