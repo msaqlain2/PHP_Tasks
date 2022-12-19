@@ -11,7 +11,7 @@ class table{
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "CREATE TABLE `users` (
-          `id` int(11) NOT NULL,
+          `id` int(11) NULL PRIMARY KEY AUTO_INCREMENT,
           `username` varchar(255) NOT NULL,
           `email` varchar(255) NOT NULL,
           `password` varchar(255) NOT NULL,

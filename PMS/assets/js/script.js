@@ -189,12 +189,14 @@ function stripePay(event) {
 function stripeResponseHandler(status, response) {
  if(response.error) {
   $('#submitPaymentForm').attr('disabled', false);
+  $('#submitPaymentForm').text('Pay');
   $('#message').html(response.error.message).show();
   
  } else {
   var stripeToken = response['id'];
   $('#payment_form').append("<input type='hidden' name='stripeToken' value='" + stripeToken + "' />");
   $('#payment_form').submit();
+  location.reload(true);
  }
 }
 
