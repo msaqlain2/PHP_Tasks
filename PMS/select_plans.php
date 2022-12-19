@@ -1,12 +1,6 @@
 <?php 
 include 'includes/header.inc.php'; 
-include 'models/subscription.class.php';
-$id = $_SESSION['userId'];
-$obj = new subscription();
-$user_data = $obj->subsDataByUserId($id);
-if($user_data['payment_date'] < $user_data['subs_expiry_date']){
-	header('location: card_details.php');
-}
+
 
 ?>
 

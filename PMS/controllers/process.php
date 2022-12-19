@@ -21,6 +21,7 @@ $subsExpiryDate =  date('Y-m-d',strtotime('+30 days',strtotime(str_replace('/', 
 $cardSubsStatus = "Charged";
 
 
+
 $stripe = array(
       "secret_key" => "sk_test_51MDBgwBkuRJujNxo6C7DmQBpxCSrAqnZxE2AKyHRMGMQMue1mUChHwzhyHO9gxgnZHXlRSWIHc5we1SEe1YW7wmg00ydRfvcYg",
       "publishable_key" => "pk_test_51MDBgwBkuRJujNxoTFqi9RebiiEBsl4tyBNdq6MS8XUKsOra6uNHg3srygo51f8RgZSt0QKoXLutOtM6Fqgsh6bs001wkgqgiF"
